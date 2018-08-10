@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -11,18 +13,12 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 import javax.sql.DataSource;
 
-@Configuration
-@ComponentScan
-@EnableAspectJAutoProxy
-public class ApplicationConfiguration {
-    @Bean
-    DataSource dataSource() {
-        return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2).setName("customers").build();
-    }
 
-    @Bean
-    JdbcTemplate jdbcTemplate(DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
+@SpringBootApplication
+public class ApplicationConfiguration {
+
+    public static void main(String [] args) {
+        SpringApplication.run(ApplicationConfiguration.class, args);
     }
 
 
