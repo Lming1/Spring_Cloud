@@ -1,0 +1,12 @@
+---
+applications:
+- name : bootcamp-customers
+  buildpack: https://github.com/cloudfoundry/java-buildpack
+  instance: 1
+  random-route: true
+  path: build/libs/demo-0.0.1.jar
+  services:
+    - bootcamp-customers-mysql
+  env:
+    DEBUG: "true"
+    SPRING_PROFILES_ACTIVE: cloud
