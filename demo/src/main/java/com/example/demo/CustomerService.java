@@ -19,7 +19,7 @@ public class CustomerService {
     public Collection<Customer> findAll() {
         RowMapper<Customer> rowMapper =
                 (rs, rowNum) -> new Customer(rs.getLong("id"),
-                        rs.getString("EMAIL"));
+                        rs.getString("email"));
         return this.jdbcTemplate.query("select * from CUSTOMERS", rowMapper);
     }
 }
