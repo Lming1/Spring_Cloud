@@ -30,7 +30,7 @@ public class AccountServiceTests {
 
     @Test
     public void getUserAccountsReturnsSingleAccount() throws Exception {
-        given(this.accountRepository.findAccountsByUsername("test"))
+        given(this.accountRepository.findAccountsByUsername("user"))
                 .willReturn(
                         Collections.singletonList(
                                 new Account("user", new AccountNumber("123456789"))));
