@@ -8,72 +8,63 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.config.server.EnableConfigServer;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 
-//@SpringBootApplication
+@SpringBootApplication
 //@EnableConfigServer
-@Configuration
-@PropertySource("some.properties")
+//@Configuration
 public class Application {
-    private final Log log = LogFactory.getLog(getClass());
 
-    public static void main(String[] args) throws Throwable {
-        new AnnotationConfigApplicationContext(Application.class);
+//    private Log log = LogFactory.getLog(getClass());
+//
+//    @Bean
+//    static PropertySourcesPlaceholderConfigurer pspc() {
+//        return new PropertySourcesPlaceholderConfigurer();
+//    }
+//
+//    @Configuration
+//    @Profile("prod")
+//    @PropertySource("some-prod.properties")
+//    public static class ProdConfiguration {
+//        @Bean
+//        InitializingBean init() {
+//            return () -> LogFactory.getLog(getClass()).info("prod InitializingBean");
+//        }
+//    }
+//
+//    @Configuration
+//    @Profile({ "default", "dev" })
+//    @PropertySource("some.properties")
+//    public static class DefaultConfiguration {
+//        @Bean
+//        InitializingBean init() {
+//            return () -> LogFactory.getLog(getClass()).info("default InitializingBean");
+//        }
+//    }
+//
+//    @Bean
+//    InitializingBean which(Environment e, @Value("${configuration.projectName}") String projectName) {
+//        return () -> {
+//            log.info("activeProfiles: '" + StringUtils.arrayToCommaDelimitedString(e.getActiveProfiles()) + "'");
+//            log.info("configuration.projectName: " + projectName);
+//        };
+//    }
+//
+//    public static void main(String[] args) {
+//        AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext();
+//        ac.getEnvironment().setActiveProfiles("dev");
+//        ac.register(Application.class);
+//        ac.refresh();
+//    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
     }
 
-    @Bean
-    static PropertySourcesPlaceholderConfigurer pspc()
-    {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
-
-    @Value("{configuration.projectName}")
-    void setProjectName(String projectName) {
-        log.info("setProjectName" + projectName);
-    }
-
-
-    @Value("${configuration.projectName}")
-    private String fieldValue;
-
-
-    @Autowired
-    Application(@Value("${configuration.projectName}") String pn) {
-        log.info("Application constructor: " + pn);
-    }
-
-    @Autowired
-    void setEnviroment(Environment env) {
-        log.info("setEnvironment:" + env.getProperty("configuration.projectName"));
-    }
-
-    @Bean
-    InitializingBean both(Environment env, @Value("${configuration.projectName}") String projectName) {
-        return () -> {
-            log.info("@Bean with both dependencies (projectName) : " + projectName );
-            log.info("@Bean with both dependencies (env) : " + env.getProperty("configuration.projectName"));
-        };
-    }
-
-    @PostConstruct
-    void afterPropertiesSet() throws Throwable {
-        log.info("fieldValue: " + this.fieldValue);
-    }
-
-
-
-    //    public static void main(String[] args) {
-    //        new ClassPathXmlApplicationContext("classic.xml");
-    //    }
-//    public void setConfigurationProjectName(String pn) {
-    //        LogFactory.getLog(getClass()).info("the configuration project name is " + pn);
-    //    }
 }
